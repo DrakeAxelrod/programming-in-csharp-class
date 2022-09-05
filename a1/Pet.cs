@@ -18,7 +18,20 @@ namespace A1
 
     public void ReadAndSavePetaData()
     {
+      // Read and save pet's name
+      Console.Write("Enter the pet's name: ");
+      name = Console.ReadLine();
+      this.SetName(name);
 
+      // Read and save pet's age
+      Console.Write("Enter the pet's age: ");
+      age = int.Parse(Console.ReadLine());
+      this.SetAge(age);
+
+      // Read and save pet's gender (y or n)
+      Console.Write("Is your pet female? (y/n) ");
+      char res = Console.Readline().Trim().ToLower()[0];
+      res == 'y' ? this.SetIsFemale(true) : this.SetIsFemale(false);
     }
 
     public void DisplayPetInfo()
