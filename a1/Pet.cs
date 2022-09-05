@@ -25,5 +25,16 @@ namespace A1
     {
 
     }
+
+    // setters
+    public void SetName(string name) { this.name = name; }
+    public void SetAge(int age) { this.age = age; }
+    public void SetIsFemale(bool isFemale) { this.isFemale = isFemale }
+
+    // getters
+    public string GetName() { return name; }
+    public int GetAge() { return age; }
+    public bool GetIsFemale() { return isFemale; }
+
   }
 }
