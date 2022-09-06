@@ -30,19 +30,22 @@ namespace A1
 
       // Read and save pet's gender (y or n)
       Console.Write("Is your pet female? (y/n) ");
-      char res = Console.Readline().Trim().ToLower()[0];
-      res == 'y' ? this.SetIsFemale(true) : this.SetIsFemale(false);
+      char res = Console.ReadLine().Trim().ToLower()[0];
+      this.SetIsFemale(res == 'y' ? true : false);
     }
 
     public void DisplayPetInfo()
     {
-
+      Console.WriteLine();
+      Console.WriteLine("Pet's name: " + this.GetName());
+      Console.WriteLine("Pet's age: " + this.GetAge());
+      Console.WriteLine("Pet's gender is: " + (this.GetIsFemale() ? "female" : "male"));
     }
 
     // setters
     public void SetName(string name) { this.name = name; }
     public void SetAge(int age) { this.age = age; }
-    public void SetIsFemale(bool isFemale) { this.isFemale = isFemale }
+    public void SetIsFemale(bool isFemale) { this.isFemale = isFemale; }
 
     // getters
     public string GetName() { return name; }
