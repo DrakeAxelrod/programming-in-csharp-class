@@ -19,12 +19,12 @@ namespace A1
     public void ReadAndSavePetaData()
     {
       // Read and save pet's name
-      Console.Write("Enter the pet's name: ");
+      Console.Write("What is the name of your pet? ");
       name = Console.ReadLine();
       this.SetName(name);
 
       // Read and save pet's age
-      Console.Write("Enter the pet's age: ");
+      Console.Write("What is " + name + "'s age? ");
       age = int.Parse(Console.ReadLine());
       this.SetAge(age);
 
@@ -36,10 +36,12 @@ namespace A1
 
     public void DisplayPetInfo()
     {
+      string sep = "++++++++++++++++++++++++++++++++++++++++++++++";
       Console.WriteLine();
-      Console.WriteLine("Pet's name: " + this.GetName());
-      Console.WriteLine("Pet's age: " + this.GetAge());
-      Console.WriteLine("Pet's gender is: " + (this.GetIsFemale() ? "female" : "male"));
+      Console.WriteLine(sep);
+      Console.WriteLine("Name: " + this.GetName() + " Age: " + this.GetAge());
+      Console.WriteLine(this.name + " is a good " + (this.GetIsFemale() ? "girl" : "boy") + "!");
+      Console.WriteLine(sep);
     }
 
     // setters
