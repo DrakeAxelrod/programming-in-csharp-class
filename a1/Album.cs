@@ -5,7 +5,7 @@ namespace A1
     private string album; 
     private string artist; 
     private int nTracks;
-    private static Helper h = new Helper();
+    private static Helper h = Helper.GetInstance();
 
     public Album()
     {

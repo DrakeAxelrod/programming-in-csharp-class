@@ -2,7 +2,8 @@ namespace A1
 {
   class Pet
   {
-    private static Helper h = new Helper();
+    private static Helper h = Helper.GetInstance();
+
     private string name;
     private int age;
     private bool isFemale;

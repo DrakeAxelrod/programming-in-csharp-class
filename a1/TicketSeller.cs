@@ -7,7 +7,7 @@ namespace A1
     private int nchild;
     private int nadult;
     private double total;
-    private static Helper h = new Helper();
+    private static Helper h = Helper.GetInstance();
     public TicketSeller() {
       // technically not needed, but good practice
       // would have been better to get the values from the user before making the object
