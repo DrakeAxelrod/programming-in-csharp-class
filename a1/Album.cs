@@ -2,22 +2,18 @@ namespace A1
 {
   class Album
   {
-
-    private string name;
-    private string artist;
-    private int year;
-    private int numSongs;
-    private double price;
+    private string album; 
+    private string artist; 
+    private int nTracks;
     private static Helper h = new Helper();
 
     public Album()
     {
       // technically not needed, but good practice
       // would have been better to get the values from the user before making the object
-      this.name = "No title";
+      this.album = "No title";
       this.artist = "No artist";
-      this.year = 0;
-      this.price = 0.0;
+      this.nTracks = 0;
     }
 
     public void Start()
@@ -32,24 +28,11 @@ namespace A1
     public void ReadAndSaveAlbumData()
     {
       // Read and save album's name
-      name = h.getString("What is the name of the album? ");
-      this.SetName(name);
-
+      this.SetAlbum(h.getString("Enter the album's name: "));
       // Read and save album's artist
-      artist = h.getString("Who is the artist? ");
-      this.SetArtist(artist);
-
-      // Read and save album's year
-      year = int.Parse(h.getString("What year was the album released? "));
-      this.SetYear(year);
-
-      // Read and save album's number of songs
-      numSongs = int.Parse(h.getString("How many songs are on the album? "));
-      this.SetNumSongs(numSongs);
-
-      // Read and save album's price
-      price = double.Parse(h.getString("What is the price of the album? "));
-      this.SetPrice(price);
+      this.SetArtist(h.getString("Enter the album's artist: "));
+      // Read and save album's number of tracks
+      this.SetNTracks(int.Parse(h.getString("Enter the number of tracks on the album: ")));
     }
 
     public void DisplayAlbumInfo()
@@ -57,24 +40,20 @@ namespace A1
       string sep = "++++++++++++++++++++++++++++++++++++++++++++++";
       Console.WriteLine();
       Console.WriteLine(sep);
-      Console.WriteLine("Name: " + this.GetName() + " Artist: " + this.GetArtist());
-      Console.WriteLine("Year: " + this.GetYear() + " Number of songs: " + this.GetNumSongs());
-      Console.WriteLine("Price: " + this.GetPrice());
+      Console.WriteLine("Album: " + this.GetAlbum());
+      Console.WriteLine("Artist: " + this.GetArtist());
+      Console.WriteLine("Number of tracks: " + this.GetNTracks());
       Console.WriteLine(sep);
     }
 
     // setters
-    public void SetName(string name) { this.name = name; }
+    public void SetAlbum(string album) { this.album = album; }
     public void SetArtist(string artist) { this.artist = artist; }
-    public void SetYear(int year) { this.year = year; }
-    public void SetNumSongs(int numSongs) { this.numSongs = numSongs; }
-    public void SetPrice(double price) { this.price = price; }
+    public void SetNTracks(int nTracks) { this.nTracks = nTracks; }
 
     // getters
-    public string GetName() { return name; }
+    public string GetAlbum() { return album; }
     public string GetArtist() { return artist; }
-    public int GetYear() { return year; }
-    public int GetNumSongs() { return numSongs; }
-    public double GetPrice() { return price; }
+    public int GetNTracks() { return nTracks; }
   }
 }
