@@ -25,17 +25,20 @@ namespace A1
       a();
       Console.WriteLine();
       Console.WriteLine("Press enter to start next part!");
-      Console.ReadLine();
+      Console.ReadKey(true);
+    }
+
+    private static void Setup() {
+      Console.BackgroundColor = ConsoleColor.Gray;
+      Console.Clear();
+      Console.ForegroundColor = ConsoleColor.Black;
     }
     static void Main(string[] args)
     {
       Pet p = new Pet();
       TicketSeller ts = new TicketSeller();
       Album a = new Album();
-
-      Console.BackgroundColor = ConsoleColor.Gray;
-      Console.Clear();
-      Console.ForegroundColor = ConsoleColor.Black;
+      Setup();
       // pet section
       Console.Title = "Pet Owner";
       Section(() => p.Start());
