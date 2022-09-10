@@ -25,7 +25,7 @@ namespace A1
       a();
       Console.WriteLine();
       Console.WriteLine("Press enter to start next part!");
-      Console.ReadKey(true);
+      Console.ReadLine();
     }
 
     private static void Setup() {
@@ -33,6 +33,7 @@ namespace A1
       Console.Clear();
       Console.ForegroundColor = ConsoleColor.Black;
     }
+
     static void Main(string[] args)
     {
       Pet p = new Pet();
@@ -48,6 +49,7 @@ namespace A1
       // album section
       Console.Title = "Album Collection";
       Section(() => a.Start());
+      Console.ResetColor();
     }
   }
 }
