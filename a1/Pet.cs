@@ -2,35 +2,35 @@ namespace A1
 {
   class Pet
   {
+    private static Helper h = new Helper();
     private string name;
     private int age;
     private bool isFemale;
 
+    public Pet()
+    {
+      // technically not needed, but good practice
+      // would have been better to get the values from the user before making the object
+      name = "No name";
+      age = 0;
+      isFemale = true;
+    }
+
     public void Start()
     {
-      Console.WriteLine();
-      Console.WriteLine("Greetings from the Pet Owner application!");
-      Console.WriteLine();
-
-      ReadAndSavePetaData();
+      h.SpacedText("Greetings from the Pet Owner application!");
+      ReadAndSavePetData();
       DisplayPetInfo();
     }
 
-    public void ReadAndSavePetaData()
+    public void ReadAndSavePetData()
     {
       // Read and save pet's name
-      Console.Write("What is the name of your pet? ");
-      name = Console.ReadLine();
-      this.SetName(name);
-
+      this.SetName(h.getString("What is the name of your pet? "));
       // Read and save pet's age
-      Console.Write("What is " + name + "'s age? ");
-      age = int.Parse(Console.ReadLine());
-      this.SetAge(age);
-
+      this.SetAge(int.Parse(h.getString("What is " + name + "'s age? ")));
       // Read and save pet's gender (y or n)
-      Console.Write("Is your pet female? (y/n) ");
-      char res = Console.ReadLine().Trim().ToLower()[0];
+      char res = h.getString("Is your pet female? (y/n) ").Trim().ToLower()[0];
       this.SetIsFemale(res == 'y' ? true : false);
     }
 
