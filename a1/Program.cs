@@ -17,6 +17,17 @@ namespace A1
       h.Section("Pet Owner", () => p.Start());
       h.Section("Ticket Seller", () => ts.Start());
       h.Section("Album", () => a.Start());
+      Console.Title = "Clock";
+      // list timezones available and associate a number with each
+      int i = 0;
+      foreach (TimeZoneInfo tzi in TimeZoneInfo.GetSystemTimeZones())
+      {
+        Console.WriteLine(i + ": " + tzi.DisplayName);
+        i++;
+      }
+      // get timezone from users choice
+      Clock c = new Clock(TimeZoneInfo.GetSystemTimeZones()[int.Parse(h.getString("Enter the number of the timezone you want to check: "))].Id);
+      c.DisplayTime();
 
       h.Cleanup();
     }

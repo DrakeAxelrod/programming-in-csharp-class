@@ -33,6 +33,9 @@ namespace A1
     }
 
     public void Cleanup() {
+      // say goodbye
+      Console.WriteLine();
+      Console.WriteLine("Thanks for using this program!");
       Console.ResetColor();
     }
   }

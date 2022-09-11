@@ -19,7 +19,7 @@ namespace A1
     public void Start()
     {
       // start the program
-      Console.WriteLine("Welcome to the Album Collection application!");
+      Console.WriteLine("Starting the Album Program!");
       Console.WriteLine();
       ReadAndSaveAlbumData();
       DisplayAlbumInfo();
@@ -28,22 +28,20 @@ namespace A1
     public void ReadAndSaveAlbumData()
     {
       // Read and save album's name
-      this.SetAlbum(h.getString("Enter the album's name: "));
+      this.SetAlbum(h.getString("What is the name of your favorite music album? "));
       // Read and save album's artist
-      this.SetArtist(h.getString("Enter the album's artist: "));
+      this.SetArtist(h.getString("What is the name of the Artist or Band for " + this.GetAlbum() + "? "));
       // Read and save album's number of tracks
-      this.SetNTracks(int.Parse(h.getString("Enter the number of tracks on the album: ")));
+      this.SetNTracks(int.Parse(h.getString("How many tracks does " + this.GetAlbum() + " have? ")));
     }
 
     public void DisplayAlbumInfo()
     {
-      string sep = "++++++++++++++++++++++++++++++++++++++++++++++";
       Console.WriteLine();
-      Console.WriteLine(sep);
-      Console.WriteLine("Album: " + this.GetAlbum());
-      Console.WriteLine("Artist: " + this.GetArtist());
-      Console.WriteLine("Number of tracks: " + this.GetNTracks());
-      Console.WriteLine(sep);
+      Console.WriteLine("Album Name: " + this.GetAlbum());
+      Console.WriteLine("Artist/Band: " + this.GetArtist());
+      Console.WriteLine("Number of Tracks: " + this.GetNTracks());
+      Console.WriteLine("Enjoy listening to " + this.GetAlbum() + " by " + this.GetArtist() + "!");
     }
 
     // setters
