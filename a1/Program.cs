@@ -3,24 +3,33 @@ namespace A1
 {
   class Program
   {
-    private static void NextPart()
-    {
-      Console.WriteLine();
-      Console.WriteLine("Press enter to start next part!");
-      Console.ReadLine();
-    }
     static void Main(string[] args)
     {
-      Console.BackgroundColor = ConsoleColor.Gray;
-      Console.Clear();
-      Console.ForegroundColor = ConsoleColor.Black;
-      Console.Title = "Pet Owner";
+      // vars
+      Helper h = Helper.GetInstance();
+      Pet p = new Pet();
+      TicketSeller ts = new TicketSeller();
+      Album a = new Album();
 
-      // Console.WriteLine("Hello World!");
-      Pet petObj = new Pet();
-      petObj.Start();
+      h.Setup();
 
-      NextPart();
+      // sections
+      h.Section("Pet Owner", () => p.Start());
+      h.Section("Ticket Seller", () => ts.Start());
+      h.Section("Album", () => a.Start());
+      Console.Title = "Clock";
+      // list timezones available and associate a number with each
+      int i = 0;
+      foreach (TimeZoneInfo tzi in TimeZoneInfo.GetSystemTimeZones())
+      {
+        Console.WriteLine(i + ": " + tzi.DisplayName);
+        i++;
+      }
+      // get timezone from users choice
+      Clock c = new Clock(TimeZoneInfo.GetSystemTimeZones()[int.Parse(h.getString("Enter the number of the timezone you want to check: "))].Id);
+      c.DisplayTime();
+
+      h.Cleanup();
     }
   }
 }
