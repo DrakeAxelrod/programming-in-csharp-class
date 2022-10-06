@@ -5,8 +5,9 @@ internal class MainProgram
   {
     Console.Title = "Strings, selection and iterations in C#";
     FunFeatures ff = new FunFeatures();
+    MathWork mw = new MathWork();
     ff.Start();
-    
+    mw.Start();
     ContinueToNextPart();
   }
 
