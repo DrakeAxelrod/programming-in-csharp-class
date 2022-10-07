@@ -8,11 +8,13 @@ internal class MainProgram
     MathWork mw = new MathWork();
     TemperatureConverter tc = new TemperatureConverter();
     WorkingSchedule ws = new WorkingSchedule();
-    // ff.Start();
-    // mw.Start();
-    // tc.Start();
-    ws.Start();
+    ff.Start();
     ContinueToNextPart();
+    mw.Start();
+    ContinueToNextPart();
+    tc.Start();
+    ContinueToNextPart();
+    ws.Start();
   }
 
   private static void ContinueToNextPart()
