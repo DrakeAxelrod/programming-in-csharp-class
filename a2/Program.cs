@@ -6,8 +6,12 @@ internal class MainProgram
     Console.Title = "Strings, selection and iterations in C#";
     FunFeatures ff = new FunFeatures();
     MathWork mw = new MathWork();
-    ff.Start();
-    mw.Start();
+    TemperatureConverter tc = new TemperatureConverter();
+    WorkingSchedule ws = new WorkingSchedule();
+    // ff.Start();
+    // mw.Start();
+    // tc.Start();
+    ws.Start();
     ContinueToNextPart();
   }
 
