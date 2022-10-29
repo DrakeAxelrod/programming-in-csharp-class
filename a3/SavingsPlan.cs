@@ -4,33 +4,37 @@ class SavingsPlan {
   private double savings;
   private double monthlyDeposit;
   private int years;
-  private double interestRate;
-  private double fees;
+  private double interestRate; // in percent
+  private double fees; // in percent
 
-  public double CalculateAmountPaid () {
+  public Dictionary<string, double> Calculate() {
+    int months = years * 12;
+    double interestEarned = 0;
+    double balance = 0;
+    double expense = 0;
     double amountPaid = 0;
-    double saved = this.savings;
-    double feePercent = 0;
-    double interestPercent = 0;
-    for (int i = 0; i < years; i++) {
-      feePercent = saved * (fees / 100);
-      interestPercent = saved * (interestRate / 100);
-      saved = saved + monthlyDeposit + interestPercent - feePercent;
-      amountPaid = amountPaid + feePercent;
+    double totalFees = 0;
+    double amountEarned = 0;
+    double interest = interestRate / 100;
+    double feesRate = fees / 100;
+    balance = savings;
+    amountPaid = months * monthlyDeposit;
+    for (int i = 0; i < months; i++) {
+      interestEarned = (interest / 12) * balance;
+      if (i % 12 == 0) {
+        expense = balance * feesRate;
+        balance -= expense;
+        totalFees += expense;
+      }
+      amountEarned += interestEarned;
+      balance += monthlyDeposit + interestEarned;
     }
-    return amountPaid;
-  }
-
-  public double CalculateAmountEarned () {
-    return 10;
-  }
-
-  public double CalculateFinalBalance () {
-    return 0;
-  }
-
-  public double CalculateTotalFees () {
-    return 0;
+    return new Dictionary<string, double> {
+      { "amountPaid", amountPaid },
+      { "amountEarned", amountEarned },
+      { "totalFees", totalFees },
+      { "finalBalance", balance }
+    };
   }
 
   // getters and setters

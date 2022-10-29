@@ -220,14 +220,6 @@ partial class MainForm
     this.savingsAmountTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activateSavingsButtonHandler);
     this.savingsAmountTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericValueOnlyHandler);
 
-    this.savingsAmountTextBox.Click += new System.EventHandler(delegate (object sender, EventArgs e)
-    {
-      if (this.savingsAmountTextBox.Text != "")
-      {
-        this.savingsPlan.setSavings(double.Parse(this.savingsAmountTextBox.Text));
-      }
-    });
-
     // monthly savings label and text box
     this.monthlyDepositLabel = createLabel("monthlyDepositLabel", "Monthly Deposit", 20, 60, 100, 20, 1);
     this.savingPlanGroupBox.Controls.Add(this.monthlyDepositLabel);
@@ -235,13 +227,6 @@ partial class MainForm
     this.savingPlanGroupBox.Controls.Add(this.monthlyDepositTextBox);
     this.monthlyDepositTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activateSavingsButtonHandler);
     this.monthlyDepositTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericValueOnlyHandler);
-    this.monthlyDepositTextBox.Click += new System.EventHandler(delegate (object sender, EventArgs e)
-    {
-      if (this.monthlyDepositTextBox.Text != "")
-      {
-        this.savingsPlan.setMonthlyDeposit(double.Parse(this.monthlyDepositTextBox.Text));
-      }
-    });
     // period label and text box
     this.yearsLabel = createLabel("yearsLabel", "Period (years)", 20, 90, 100, 20, 1);
     this.savingPlanGroupBox.Controls.Add(this.yearsLabel);
@@ -249,13 +234,6 @@ partial class MainForm
     this.savingPlanGroupBox.Controls.Add(this.yearsTextBox);
     this.yearsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activateSavingsButtonHandler);
     this.yearsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericValueOnlyHandler);
-    this.yearsTextBox.Click += new System.EventHandler(delegate (object sender, EventArgs e)
-    {
-      if (this.yearsTextBox.Text != "")
-      {
-        this.savingsPlan.setYears(int.Parse(this.yearsTextBox.Text));
-      }
-    });
     // interest rate label and text box
     this.interestRateLabel = createLabel("interestRateLabel", "Interest Rate (%)", 20, 120, 100, 20, 1);
     this.savingPlanGroupBox.Controls.Add(this.interestRateLabel);
@@ -263,13 +241,7 @@ partial class MainForm
     this.savingPlanGroupBox.Controls.Add(this.interestRateTextBox);
     this.interestRateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activateSavingsButtonHandler);
     this.interestRateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericValueOnlyHandler);
-    this.interestRateTextBox.Click += new System.EventHandler(delegate (object sender, EventArgs e)
-    {
-      if (this.interestRateTextBox.Text != "")
-      {
-        this.savingsPlan.setInterestRate(double.Parse(this.interestRateTextBox.Text));
-      }
-    });
+
     // fee label and text box
     this.feesLabel = createLabel("feeLabel", "Fee (%)", 20, 150, 100, 20, 1);
     this.savingPlanGroupBox.Controls.Add(this.feesLabel);
@@ -277,13 +249,14 @@ partial class MainForm
     this.savingPlanGroupBox.Controls.Add(this.feesTextBox);
     this.feesTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.activateSavingsButtonHandler);
     this.feesTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericValueOnlyHandler);
-    this.feesTextBox.Click += new System.EventHandler(delegate (object sender, EventArgs e)
-    {
-      if (this.feesTextBox.Text != "")
-      {
-        this.savingsPlan.setFees(double.Parse(this.feesTextBox.Text));
-      }
-    });
+
+
+    // show message box amount paid
+    this.savingsAmountTextBox.Text = "0.00";
+    this.monthlyDepositTextBox.Text = "1200";
+    this.yearsTextBox.Text = "15";
+    this.interestRateTextBox.Text = "9.99";
+    this.feesTextBox.Text = "0.00";
 
     // savings result group box
     this.savingPlanResultsGroupBox = createGroupBox("Savings Plan Results", 460, 270, 330, 160);
@@ -698,10 +671,17 @@ partial class MainForm
   // calculate savings button event handler
   private void calculateSavingsButtonHandler(object sender, EventArgs e)
   {
-    this.amountPaidTextBox.Text = this.savingsPlan.CalculateAmountPaid().ToString("0.00");
-    this.amountEarnedTextBox.Text = this.savingsPlan.CalculateAmountEarned().ToString("0.00");
-    this.finalBalanceTextBox.Text = this.savingsPlan.CalculateFinalBalance().ToString("0.00");
-    this.totalFeesTextBox.Text = this.savingsPlan.CalculateTotalFees().ToString("0.00");
+    this.savingsPlan.setSavings(Convert.ToDouble(this.savingsAmountTextBox.Text));
+    this.savingsPlan.setMonthlyDeposit(Convert.ToDouble(this.monthlyDepositTextBox.Text));
+    this.savingsPlan.setYears(Convert.ToInt16(this.yearsTextBox.Text));
+    this.savingsPlan.setInterestRate(Convert.ToDouble(this.interestRateTextBox.Text));
+    this.savingsPlan.setFees(Convert.ToDouble(this.feesTextBox.Text));
+    // MessageBox.Show("savings " + savingsPlan.getSavings() + " monthly " + savingsPlan.getMonthlyDeposit() + " years " + savingsPlan.getYears() + " interest " + savingsPlan.getInterestRate() + " fees " + savingsPlan.getFees());
+    Dictionary<string, double> savings = savingsPlan.Calculate();
+    this.amountPaidTextBox.Text = savings["amountPaid"].ToString("0.00");
+    this.amountEarnedTextBox.Text = savings["amountEarned"].ToString("0.00");
+    this.finalBalanceTextBox.Text = savings["finalBalance"].ToString("0.00");
+    this.totalFeesTextBox.Text = savings["totalFees"].ToString("0.00");
   }
 
   // activity level radio button event handler
