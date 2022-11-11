@@ -2,15 +2,31 @@ namespace a4
 {
   public class Recipe
   {
-    private FoodCategory category { get; set; }
-    private string description { get; set; }
-    private string[] ingredients { get; set; }
-    private string name { get; set; }
+    private FoodCategory category = FoodCategory.Other;
+    private string description = "";
+    private string[] ingredients = new string[0];
+    private string name = "";
 
-    public Recipe(int maxNumOfIngredients)
+    // add capital variable names as properties for set and get
+    public string Name
     {
-      ingredients = new string[maxNumOfIngredients];
+      get { return name; }
+      set { name = value; }
     }
-
+    public string Description
+    {
+      get { return description; }
+      set { description = value; }
+    }
+    public FoodCategory Category
+    {
+      get { return category; }
+      set { category = value; }
+    }
+    public string[] Ingredients
+    {
+      get { return ingredients; }
+      set { ingredients = value; }
+    }
   }
 }

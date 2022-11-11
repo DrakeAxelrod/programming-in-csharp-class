@@ -2,7 +2,7 @@ namespace a4
 {
   public class RecipeManager
   {
-    private Recipe[] recipes;
+    private Recipe?[] recipes;
     private int maxNumOfElements;
 
     public RecipeManager(int maxNumOfElements)
@@ -31,10 +31,26 @@ namespace a4
         throw new Exception("Recipe array is full");
       }
     }
-    public void Add(string name, RecipeCategory category, string[] ingredients)
+    public void Add(string name, FoodCategory category, string[] ingredients)
     {
-      Recipe recipe = new Recipe(name, category, ingredients);
-      recipes.Add(recipe);
+      Recipe recipe = new Recipe();
+      this.Add(recipe);
+    }
+
+    public void AddAt(int index, Recipe recipe)
+    {
+      if (index < 0 || index >= recipes.Length)
+      {
+        throw new Exception("Index out of bounds");
+      }
+      else if (recipes[index] != null)
+      {
+        throw new Exception("Index already contains a recipe");
+      }
+      else
+      {
+        recipes[index] = recipe;
+      }
     }
 
     public void ChangeElement(int index, Recipe recipe)
@@ -44,6 +60,7 @@ namespace a4
 
     public bool CheckIndex(int index)
     {
+      return true;
     }
 
     public void DeleteElement(int index)

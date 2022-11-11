@@ -1,6 +1,6 @@
 namespace a4
 {
-  enum FoodCategory
+  public enum FoodCategory
   {
     Meat,
     Pasta,

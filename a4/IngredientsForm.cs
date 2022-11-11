@@ -1,9 +1,9 @@
 namespace a4;
 
-public partial class MainForm : Form
+public partial class IngredientsForm : Form
 {
-    public MainForm()
+    public IngredientsForm(Recipe recipe)
     {
-        InitializeComponent();
+        InitializeComponent(recipe);
     }
 }
