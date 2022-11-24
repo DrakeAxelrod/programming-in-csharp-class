@@ -290,7 +290,7 @@ partial class MainForm
   // handle double click event on list box
   private void lstRecipes_DoubleClick(object sender, System.EventArgs e)
   {
-    if (sender == this.lstRecipes)
+    if (sender == this.lstRecipes && this.lstRecipes.Items.Count > 0)
     {
       // template string for message box
       string content = "INGREDIENTS";
