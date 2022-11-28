@@ -1,6 +1,6 @@
 ﻿namespace a5;
 
-partial class MainForm
+partial class AddCustomerForm
 {
   /// <summary>
   ///  Required designer variable.
@@ -8,15 +8,7 @@ partial class MainForm
   private System.ComponentModel.IContainer components = null;
 
   private int HEIGHT = 500;
-  private int WIDTH = 1000;
-
-  private System.Windows.Forms.Label lblSections;
-  private System.Windows.Forms.ListBox lstContacts;
-  private System.Windows.Forms.TextBox txtContactDetails;
-  // buttons (add, edit, delete)
-  private System.Windows.Forms.Button btnAdd;
-  private System.Windows.Forms.Button btnEdit;
-  private System.Windows.Forms.Button btnDelete;
+  private int WIDTH = 500;
 
   /// <summary>
   ///  Clean up any resources being used.
@@ -35,51 +27,12 @@ partial class MainForm
   ///  Required method for Designer support - do not modify
   ///  the contents of this method with the code editor.
   /// </summary>
-  private void InitializeComponent()
+  private void InitializeComponent(EditOrAdd e)
   {
     this.components = new System.ComponentModel.Container();
     this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
     this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
-    this.Text = "Customer Registry By Drake Axelrod";
-    int width = WIDTH -60;
-    String sections =
-      "ID"                            + new String(' ', 15)
-      + "Name (Surname, first name)"  + new String(' ', 20)
-      + "Office Phone"                + new String(' ', 15)
-      + "Office Email"                + new String(' ', 40)
-      + "Contact Details";
-    // larger text and cyan color
-    lblSections = createLabel("lblSections", sections, 30, 30, 1000, 30, 0);
-    System.Drawing.Font font = System.Drawing.SystemFonts.DefaultFont;
-    this.lblSections.Font = new System.Drawing.Font(font.Name, 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-    this.lblSections.ForeColor = System.Drawing.Color.DarkCyan;
-    this.Controls.Add(this.lblSections);
-
-    // list box
-    // 2/3 of the width
-    lstContacts = createListBox("lstContacts", 30, 60, (int)(width * 2.0/3.0), 380, 1);
-    // four columns for the list box (ID, Name, Office Phone, Office Email)
-
-    this.Controls.Add(this.lstContacts);
-
-    // text box
-    // 1/3 of the width
-    txtContactDetails = createTextBox("txtContactDetails", (int)(width * 2.0/3.0) + 30, 59, (int)(width * 1.0/3.0), 380, 2);
-    // multiline
-    txtContactDetails.Multiline = true;
-    // disable for writing
-    txtContactDetails.ReadOnly = true;
-    this.Controls.Add(this.txtContactDetails);
-
-    // buttons centered across list box
-    int buttonWidth = (int)(width * 2.0/3.0) / 3;
-    btnAdd = createButton("btnAdd", "Add", 30, 450, buttonWidth, 30, 3);
-    btnEdit = createButton("btnEdit", "Edit", 30 + buttonWidth, 450, buttonWidth, 30, 4);
-    btnDelete = createButton("btnDelete", "Delete", 30 + buttonWidth * 2, 450, buttonWidth, 30, 5);
-    this.Controls.Add(this.btnAdd);
-    this.Controls.Add(this.btnEdit);
-    this.Controls.Add(this.btnDelete);
-
+    this.Text = e == EditOrAdd.Add ? "Add Customer" : "Edit Customer";
   }
 
   // initialize label
@@ -140,19 +93,5 @@ partial class MainForm
     listBox.Size = new System.Drawing.Size(width, height);
     listBox.TabIndex = tabIndex;
     return listBox;
-  }
-
-  // handle button clicks
-  private void btn_Click(object sender, EventArgs e)
-  {
-    if (sender == btnAdd)
-    {
-    }
-    else if (sender == btnEdit)
-    {
-    }
-    else if (sender == btnDelete)
-    {
-    }
   }
 }
