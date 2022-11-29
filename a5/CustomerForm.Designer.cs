@@ -1,6 +1,6 @@
 ﻿namespace a5;
 
-partial class AddCustomerForm
+partial class CustomerForm
 {
   /// <summary>
   ///  Required designer variable.

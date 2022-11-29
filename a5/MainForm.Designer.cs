@@ -76,6 +76,10 @@ partial class MainForm
     btnAdd = createButton("btnAdd", "Add", 30, 450, buttonWidth, 30, 3);
     btnEdit = createButton("btnEdit", "Edit", 30 + buttonWidth, 450, buttonWidth, 30, 4);
     btnDelete = createButton("btnDelete", "Delete", 30 + buttonWidth * 2, 450, buttonWidth, 30, 5);
+    // add event handlers
+    btnAdd.Click += new System.EventHandler(this.btn_Click);
+    btnEdit.Click += new System.EventHandler(this.btn_Click);
+    btnDelete.Click += new System.EventHandler(this.btn_Click);
     this.Controls.Add(this.btnAdd);
     this.Controls.Add(this.btnEdit);
     this.Controls.Add(this.btnDelete);
@@ -147,9 +151,15 @@ partial class MainForm
   {
     if (sender == btnAdd)
     {
+      // create new customer form
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add);
+      cf.Show();
     }
     else if (sender == btnEdit)
     {
+      // create new customer form
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit);
+      cf.Show();
     }
     else if (sender == btnDelete)
     {

@@ -1,6 +1,6 @@
 namespace a5;
 
-public partial class AddCustomerForm : Form
+public partial class CustomerForm : Form
 {
   // enum edit or add
   public enum EditOrAdd { Edit, Add };
@@ -9,7 +9,7 @@ public partial class AddCustomerForm : Form
     /// <summary>
     /// initialize the form
     /// </summary>
-    public AddCustomerForm(EditOrAdd e)
+    public CustomerForm(EditOrAdd e)
     {
         InitializeComponent(e);
     }
