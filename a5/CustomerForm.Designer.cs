@@ -1,5 +1,8 @@
 ﻿namespace a5;
 
+// import ./contact/Countries.cs
+// using a5.ContactFiles;
+
 partial class CustomerForm
 {
   /// <summary>
@@ -41,6 +44,7 @@ partial class CustomerForm
   private System.Windows.Forms.Button btnOK;
   private System.Windows.Forms.Button btnCancel;
 
+  private Contact contact;
 
   /// <summary>
   ///  Clean up any resources being used.
@@ -59,8 +63,9 @@ partial class CustomerForm
   ///  Required method for Designer support - do not modify
   ///  the contents of this method with the code editor.
   /// </summary>
-  private void InitializeComponent(EditOrAdd e)
+  private void InitializeComponent(EditOrAdd e, Contact contact)
   {
+    this.contact = contact;
     this.components = new System.ComponentModel.Container();
     this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
     this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
@@ -94,6 +99,11 @@ partial class CustomerForm
     txtZipCode = createTextBox("txtZipCode", 110, 86, 310, 20, 2);
     // country combo box
     cmbCountry = createComboBox("cmbCountry", 110, 116, 310, 20, 2);
+    // add countries to combo box
+    foreach (Countries c in Enum.GetValues(typeof(Countries)))
+    {
+      cmbCountry.Items.Add(c);
+    }
     // center buttons in the bottom of the form
     btnOK = createButton("btnOK", "OK", WIDTH/3 - 60, HEIGHT - 60, 100, 30, 3);
     btnCancel = createButton("btnCancel", "CANCEL", 2*WIDTH/3 - 30, HEIGHT - 60, 100, 30, 4);
@@ -127,9 +137,12 @@ partial class CustomerForm
     this.Controls.Add(btnOK);
     this.Controls.Add(btnCancel);
 
+  }
 
-
-
+  public Contact Contact
+  {
+    get { return contact; }
+    set { contact = value; }
   }
 
   // initialize label
@@ -216,6 +229,24 @@ partial class CustomerForm
     return groupBox;
   }
 
+  // read data from text box
+  private string readTextBox(System.Windows.Forms.TextBox textBox)
+  {
+    if (textBox.Text == "")
+      return null;
+    else
+      return textBox.Text;
+  }
+
+  // read data from combo box
+  private string readComboBox(System.Windows.Forms.ComboBox comboBox)
+  {
+    if (comboBox.Text == "")
+      return null;
+    else
+      return comboBox.Text;
+  }
+
   // event handler for OK button
   private void btnOK_Click(object sender, EventArgs e)
   {
@@ -226,13 +257,53 @@ partial class CustomerForm
     }
     else
     {
-      return;
+      string firstName = readTextBox(txtFirstName);
+      string lastName = readTextBox(txtLastName);
+      string homePhone = readTextBox(txtHomePhone);
+      string cellPhone = readTextBox(txtCellPhone);
+      string emailBusiness = readTextBox(txtEmailBusiness);
+      string emailPrivate = readTextBox(txtEmailPrivate);
+      string street = readTextBox(txtStreet);
+      string city = readTextBox(txtCity);
+      // to number
+      int zipCode = Convert.ToInt32(readTextBox(txtZipCode));
+      // to enum
+      Countries country = (Countries)Enum.Parse(typeof(Countries), readComboBox(cmbCountry));
+
+      // create phone numbers
+      Phone phone = new Phone();
+      phone.Personal = homePhone;
+      phone.Work = cellPhone;
+
+      // create email addresses
+      Email email = new Email();
+      email.Personal = emailPrivate;
+      email.Work = emailBusiness;
+
+      // create address
+      Address address = new Address();
+      address.Street = street;
+      address.City = city;
+      address.Zip = zipCode;
+      address.Country = country;
+
+      // create contact
+      this.contact.FirstName = firstName;
+      this.contact.LastName = lastName;
+      this.contact.Phone = phone;
+      this.contact.Email = email;
+      this.contact.Address = address;
+      this.Close();
     }
   }
 
   // event handler for cancel button
   private void btnCancel_Click(object sender, EventArgs e)
   {
-    this.Close();
+    // check if the user really wants to cancel
+    if (MessageBox.Show("Do you really want to cancel?", "Cancel", MessageBoxButtons.YesNo) == DialogResult.Yes)
+    {
+      this.Close();
+    }
   }
 }

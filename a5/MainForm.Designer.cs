@@ -18,6 +18,7 @@ partial class MainForm
   private System.Windows.Forms.Button btnEdit;
   private System.Windows.Forms.Button btnDelete;
 
+  private CustomerManager cm;
   /// <summary>
   ///  Clean up any resources being used.
   /// </summary>
@@ -37,6 +38,7 @@ partial class MainForm
   /// </summary>
   private void InitializeComponent()
   {
+    this.cm = new CustomerManager();
     this.components = new System.ComponentModel.Container();
     this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
     this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
@@ -84,6 +86,9 @@ partial class MainForm
     this.Controls.Add(this.btnEdit);
     this.Controls.Add(this.btnDelete);
 
+    cm.TestData();
+    // populate the list box
+    updateListBox();
   }
 
   // initialize label
@@ -146,23 +151,53 @@ partial class MainForm
     return listBox;
   }
 
+  private void updateListBox()
+  {
+    // clear list box
+    lstContacts.Items.Clear();
+    // add all contacts to list box
+    foreach (Customer c in cm.getCustomers())
+    {
+      lstContacts.Items.Add(c.GetToStringItemsHeadings);
+    }
+  }
+
   // handle button clicks
   private void btn_Click(object sender, EventArgs e)
   {
     if (sender == btnAdd)
     {
+      // create new contact
+      Contact contact = new Contact();
+      // create new Customer
+      Customer customer = new Customer();
+      customer.Contact = contact;
       // create new customer form
-      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add);
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add, contact);
       cf.Show();
+      customer.ID = cm.Count() + 1;
+      cm.AddCustomer(customer);
+      // update list box
+      updateListBox();
     }
     else if (sender == btnEdit)
     {
+      // get selected customer
+      Customer customer = cm.GetCustomer(lstContacts.SelectedIndex);
       // create new customer form
-      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit);
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit, customer.Contact);
       cf.Show();
     }
     else if (sender == btnDelete)
     {
+      // get selected item
+      int index = lstContacts.SelectedIndex;
+      if (index >= 0)
+      {
+        // delete from list box
+        cm.RemoveCustomer(index);
+        lstContacts.Items.RemoveAt(index);
+      }
     }
   }
 }

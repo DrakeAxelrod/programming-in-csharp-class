@@ -96,7 +96,7 @@ public class Email
     /// <remarks></remarks>
     public string GetToStringItemsHeadings
     {
-        get { return string.Format("{0,-20} {1, -20}", "Office EmailData", "Private EmailData"); }
+        get { return string.Format("{0}", this.officeMail); }
     }
 
     /// <summary>
@@ -117,10 +117,3 @@ public class Email
     }
 
 }
-
-
-
-
-
-
-
