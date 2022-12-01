@@ -32,7 +32,12 @@ public class Customer
       get { return string.Format("{0,-23} {1}", this.id, this.contact.GetToStringItemsHeadings); }
   }
 
-  // public override string ToString() {
-  //   return contact.ToString();
-  // }
+  public override string ToString() {
+    string strOut = "";
+    strOut += contact.FirstName + " " + contact.LastName + Environment.NewLine;
+    strOut += contact.Address.ToString();
+    strOut += contact.Email.ToString();
+    strOut += contact.Phone.ToString();
+    return strOut;
+  }
 }

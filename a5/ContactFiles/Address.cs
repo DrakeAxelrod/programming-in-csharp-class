@@ -52,10 +52,11 @@ public class Address {
 
   public override string ToString() {
     string strOut = "";
-    strOut += "Street: " + street + "\n";
-    strOut += "City: " + city + "\n";
-    strOut += "Zip: " + zip + "\n";
-    strOut += "Country: " + country + "\n";
+    strOut +=  city + Environment.NewLine;
+    strOut +=  string.Format("{0} {1}", zip, street) + Environment.NewLine;
+    // replace _ with space
+    string strCountry = country.ToString().Replace("_", " ");
+    strOut += strCountry + Environment.NewLine;
     return strOut;
   }
 }

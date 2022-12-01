@@ -108,10 +108,10 @@ public class Email
     /// <remarks></remarks>
     public override string ToString()
     {
-        string strOut = "\n" + "Emails" + "\n";
+        string strOut = Environment.NewLine + "Emails" + Environment.NewLine;
 
-        strOut += string.Format(" {0,-10} {1, -10}\n", "Private", personalMail);
-        strOut += string.Format(" {0,-10} {1, -10}\n\n", "Office", officeMail);
+        strOut += string.Format(" {0,-10} {1, -10}", "Private", personalMail) + Environment.NewLine;
+        strOut += string.Format(" {0,-10} {1, -10}", "Office", officeMail) + Environment.NewLine;
 
         return strOut;
     }

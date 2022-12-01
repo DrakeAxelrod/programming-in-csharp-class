@@ -45,6 +45,7 @@ partial class CustomerForm
   private System.Windows.Forms.Button btnCancel;
 
   private Contact contact;
+  private bool update;
 
   /// <summary>
   ///  Clean up any resources being used.
@@ -59,13 +60,16 @@ partial class CustomerForm
     base.Dispose(disposing);
   }
 
+
+
   /// <summary>
   ///  Required method for Designer support - do not modify
   ///  the contents of this method with the code editor.
   /// </summary>
-  private void InitializeComponent(EditOrAdd e, Contact contact)
+  private void InitializeComponent(EditOrAdd e)
   {
     this.contact = contact;
+    this.update = update;
     this.components = new System.ComponentModel.Container();
     this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
     this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
@@ -104,12 +108,27 @@ partial class CustomerForm
     {
       cmbCountry.Items.Add(c);
     }
+    cmbCountry.SelectedIndex = 0;
     // center buttons in the bottom of the form
     btnOK = createButton("btnOK", "OK", WIDTH/3 - 60, HEIGHT - 60, 100, 30, 3);
     btnCancel = createButton("btnCancel", "CANCEL", 2*WIDTH/3 - 30, HEIGHT - 60, 100, 30, 4);
     // add event handlers
     btnOK.Click += new System.EventHandler(this.btnOK_Click);
     btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+
+    if (this.contact != null)
+    {
+      txtFirstName.Text = contact.FirstName;
+      txtLastName.Text = contact.LastName;
+      txtHomePhone.Text = contact.Phone.Personal;
+      txtCellPhone.Text = contact.Phone.Work;
+      txtEmailBusiness.Text = contact.Email.Work;
+      txtEmailPrivate.Text = contact.Email.Personal;
+      txtStreet.Text = contact.Address.Street;
+      txtCity.Text = contact.Address.City;
+      txtZipCode.Text = string.Format("{0}", contact.Address.Zip);
+      cmbCountry.SelectedIndex = (int)contact.Country;
+    }
     // add to form
     this.Controls.Add(grpName);
     this.grpName.Controls.Add(lblFirstName);
@@ -136,7 +155,6 @@ partial class CustomerForm
     this.grpAddress.Controls.Add(cmbCountry);
     this.Controls.Add(btnOK);
     this.Controls.Add(btnCancel);
-
   }
 
   public Contact Contact
@@ -293,9 +311,11 @@ partial class CustomerForm
       this.contact.Phone = phone;
       this.contact.Email = email;
       this.contact.Address = address;
+      this.update = true;
       this.Close();
     }
   }
+
 
   // event handler for cancel button
   private void btnCancel_Click(object sender, EventArgs e)
@@ -303,6 +323,7 @@ partial class CustomerForm
     // check if the user really wants to cancel
     if (MessageBox.Show("Do you really want to cancel?", "Cancel", MessageBoxButtons.YesNo) == DialogResult.Yes)
     {
+      this.contact = new Contact();
       this.Close();
     }
   }

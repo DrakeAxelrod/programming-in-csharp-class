@@ -51,15 +51,14 @@ public class Contact
     set { email = value; }
   }
 
+  public Countries Country
+  {
+      get { return address.Country; }
+      set { address.Country = value; }
+  }
+
   public string GetToStringItemsHeadings
   {
       get { return string.Format("{0},{1,-74}{2,-38}{3}", this.firstName, this.lastName, this.phone.GetToStringItemsHeadings, this.email.GetToStringItemsHeadings); }
   }
-
-  public override string ToString() {
-    string strOut = "";
-    return strOut;
-  }
-  
-
 }

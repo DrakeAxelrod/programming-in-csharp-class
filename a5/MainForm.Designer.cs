@@ -19,6 +19,7 @@ partial class MainForm
   private System.Windows.Forms.Button btnDelete;
 
   private CustomerManager cm;
+  private Contact currContact;
   /// <summary>
   ///  Clean up any resources being used.
   /// </summary>
@@ -39,6 +40,7 @@ partial class MainForm
   private void InitializeComponent()
   {
     this.cm = new CustomerManager();
+    this.currContact = null;
     this.components = new System.ComponentModel.Container();
     this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
     this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
@@ -60,8 +62,8 @@ partial class MainForm
     // list box
     // 2/3 of the width
     lstContacts = createListBox("lstContacts", 30, 60, (int)(width * 2.0/3.0), 380, 1);
-    // four columns for the list box (ID, Name, Office Phone, Office Email)
-
+    // add event handler for the list box
+    this.lstContacts.SelectedIndexChanged += new System.EventHandler(this.lstContacts_SelectedIndexChanged);
     this.Controls.Add(this.lstContacts);
 
     // text box
@@ -162,30 +164,69 @@ partial class MainForm
     }
   }
 
+
+  private void cf_FormClosed(object sender, FormClosedEventArgs e)
+  {
+    // show a message box
+    // MessageBox.Show(string.Format("{0}", this.update));
+    if (this.currContact != null) {
+      Customer c = new Customer();
+      c.Contact = currContact; 
+      cm.AddCustomer(c);
+      c.ID = cm.Count();
+      this.currContact = null;
+    }
+    // update the list box
+    updateListBox();
+  }
+
+  // select event for list box
+  private void lstContacts_SelectedIndexChanged(object sender, EventArgs e)
+  {
+    // get the selected index
+    int index = lstContacts.SelectedIndex;
+    // if there is a selected index
+    if (index != -1)
+    {
+      // get the selected contact
+      Customer c = cm.getCustomers()[index];
+      currContact = c.Contact;
+      // display the contact details
+      string content = c.ToString();
+      // add the contact details to the text box
+      // respecting the new lines
+      txtContactDetails.Text = content;
+    }
+  }
+
   // handle button clicks
   private void btn_Click(object sender, EventArgs e)
   {
     if (sender == btnAdd)
     {
-      // create new contact
-      Contact contact = new Contact();
-      // create new Customer
-      Customer customer = new Customer();
-      customer.Contact = contact;
-      // create new customer form
-      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add, contact);
+
+      currContact = new Contact();
+
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add);
+      cf.Contact = currContact;
+      cf.FormClosed += new FormClosedEventHandler(this.cf_FormClosed);
       cf.Show();
-      customer.ID = cm.Count() + 1;
-      cm.AddCustomer(customer);
-      // update list box
-      updateListBox();
     }
     else if (sender == btnEdit)
     {
+      // if no contact is selected, show a message box
+      if (lstContacts.SelectedIndex == -1)
+      {
+        MessageBox.Show("Please select a contact to edit.");
+        return;
+      }
       // get selected customer
-      Customer customer = cm.GetCustomer(lstContacts.SelectedIndex);
+      // Customer customer = cm.GetCustomer(lstContacts.SelectedIndex);
       // create new customer form
-      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit, customer.Contact);
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit);
+      cf.Contact = currContact;
+      currContact = null;
+      cf.FormClosed += new FormClosedEventHandler(this.cf_FormClosed);
       cf.Show();
     }
     else if (sender == btnDelete)
@@ -197,6 +238,7 @@ partial class MainForm
         // delete from list box
         cm.RemoveCustomer(index);
         lstContacts.Items.RemoveAt(index);
+        txtContactDetails.Text = "";
       }
     }
   }

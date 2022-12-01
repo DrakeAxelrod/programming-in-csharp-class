@@ -9,8 +9,8 @@ public partial class CustomerForm : Form
     /// <summary>
     /// initialize the form
     /// </summary>
-    public CustomerForm(EditOrAdd e, Contact contact)
+    public CustomerForm(EditOrAdd e)
     {
-        InitializeComponent(e, contact);
+        InitializeComponent(e);
     }
 }

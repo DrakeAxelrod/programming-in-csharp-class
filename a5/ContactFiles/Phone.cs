@@ -36,6 +36,11 @@ public class Phone {
   }
 
   public override string ToString() {
-    return "Personal: " + personalPhone + "\nOffice: " + officePhone;
+    string strOut = Environment.NewLine + "Phone number" + Environment.NewLine;
+
+    strOut += string.Format(" {0,-10} {1, -10}", "Private", personalPhone) + Environment.NewLine;
+    strOut += string.Format(" {0,-10} {1, -10}", "Office", officePhone) + Environment.NewLine;
+
+    return strOut;
   }
 }
