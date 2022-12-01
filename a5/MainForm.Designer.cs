@@ -180,7 +180,9 @@ partial class MainForm
       Customer c = new Customer();
       c.Contact = currContact; 
       cm.AddCustomer(c);
-      c.ID = cm.Count();
+      // get the highest id of a customer
+      int highestId = cm.getCustomers().Max(x => x.ID);
+      c.ID = highestId + 1;
       this.currContact = null;
     }
     // update the list box
