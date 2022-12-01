@@ -45,7 +45,6 @@ partial class CustomerForm
   private System.Windows.Forms.Button btnCancel;
 
   private Contact contact;
-  private bool update;
 
   /// <summary>
   ///  Clean up any resources being used.
@@ -66,10 +65,8 @@ partial class CustomerForm
   ///  Required method for Designer support - do not modify
   ///  the contents of this method with the code editor.
   /// </summary>
-  private void InitializeComponent(EditOrAdd e)
+  private void InitializeComponent(EditOrAdd e, Contact cntct)
   {
-    this.contact = contact;
-    this.update = update;
     this.components = new System.ComponentModel.Container();
     this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
     this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
@@ -106,7 +103,8 @@ partial class CustomerForm
     // add countries to combo box
     foreach (Countries c in Enum.GetValues(typeof(Countries)))
     {
-      cmbCountry.Items.Add(c);
+      // replace _ with space
+      cmbCountry.Items.Add(c.ToString().Replace("_", " "));
     }
     cmbCountry.SelectedIndex = 0;
     // center buttons in the bottom of the form
@@ -116,18 +114,19 @@ partial class CustomerForm
     btnOK.Click += new System.EventHandler(this.btnOK_Click);
     btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 
-    if (this.contact != null)
+    if (cntct != null)
     {
-      txtFirstName.Text = contact.FirstName;
-      txtLastName.Text = contact.LastName;
-      txtHomePhone.Text = contact.Phone.Personal;
-      txtCellPhone.Text = contact.Phone.Work;
-      txtEmailBusiness.Text = contact.Email.Work;
-      txtEmailPrivate.Text = contact.Email.Personal;
-      txtStreet.Text = contact.Address.Street;
-      txtCity.Text = contact.Address.City;
-      txtZipCode.Text = string.Format("{0}", contact.Address.Zip);
-      cmbCountry.SelectedIndex = (int)contact.Country;
+      this.contact = cntct;
+      txtFirstName.Text = cntct.FirstName;
+      txtLastName.Text = cntct.LastName;
+      txtHomePhone.Text = cntct.Phone.Personal;
+      txtCellPhone.Text = cntct.Phone.Work;
+      txtEmailBusiness.Text = cntct.Email.Work;
+      txtEmailPrivate.Text = cntct.Email.Personal;
+      txtStreet.Text = cntct.Address.Street;
+      txtCity.Text = cntct.Address.City;
+      txtZipCode.Text = string.Format("{0}", cntct.Address.Zip);
+      cmbCountry.SelectedIndex = (int)cntct.Country;
     }
     // add to form
     this.Controls.Add(grpName);
@@ -286,7 +285,9 @@ partial class CustomerForm
       // to number
       int zipCode = Convert.ToInt32(readTextBox(txtZipCode));
       // to enum
-      Countries country = (Countries)Enum.Parse(typeof(Countries), readComboBox(cmbCountry));
+      // replace spaces with underscores
+      string _country = readComboBox(cmbCountry).Replace(" ", "_");
+      Countries country = (Countries)Enum.Parse(typeof(Countries), _country);
 
       // create phone numbers
       Phone phone = new Phone();
@@ -303,6 +304,7 @@ partial class CustomerForm
       address.Street = street;
       address.City = city;
       address.Zip = zipCode;
+
       address.Country = country;
 
       // create contact
@@ -311,7 +313,6 @@ partial class CustomerForm
       this.contact.Phone = phone;
       this.contact.Email = email;
       this.contact.Address = address;
-      this.update = true;
       this.Close();
     }
   }

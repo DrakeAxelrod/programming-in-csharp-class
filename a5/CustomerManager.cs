@@ -58,12 +58,13 @@ public class CustomerManager
   }
 
   public void TestData() {
+
     customers.Add(new Customer(new Contact(
       "John",
       "Smith",
       new Address("123 Main St.", "Anytown", 12345, Countries.United_States_of_America),
-      new Phone("123-456-7890"),
-      new Email("JohnSmith@gmail.com")
+      new Phone("123-456-7890", "098-765-4321"),
+      new Email("JohnSmith@gmail.com", "jsmith@gmail.com")
     ), 1));
   }
 }

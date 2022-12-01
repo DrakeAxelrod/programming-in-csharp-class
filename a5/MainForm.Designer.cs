@@ -167,8 +167,15 @@ partial class MainForm
 
   private void cf_FormClosed(object sender, FormClosedEventArgs e)
   {
-    // show a message box
-    // MessageBox.Show(string.Format("{0}", this.update));
+    // if there is a selected item in the list box
+    if (lstContacts.SelectedIndex != -1)
+    {
+      // get the selected item
+      Customer c = cm.getCustomers()[lstContacts.SelectedIndex];
+      c.Contact = currContact;
+      currContact = null;
+    }
+
     if (this.currContact != null) {
       Customer c = new Customer();
       c.Contact = currContact; 
@@ -207,7 +214,7 @@ partial class MainForm
 
       currContact = new Contact();
 
-      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add);
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Add, null);
       cf.Contact = currContact;
       cf.FormClosed += new FormClosedEventHandler(this.cf_FormClosed);
       cf.Show();
@@ -223,9 +230,8 @@ partial class MainForm
       // get selected customer
       // Customer customer = cm.GetCustomer(lstContacts.SelectedIndex);
       // create new customer form
-      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit);
+      CustomerForm cf = new CustomerForm(CustomerForm.EditOrAdd.Edit, currContact);
       cf.Contact = currContact;
-      currContact = null;
       cf.FormClosed += new FormClosedEventHandler(this.cf_FormClosed);
       cf.Show();
     }
