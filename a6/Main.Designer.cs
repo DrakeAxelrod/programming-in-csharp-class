@@ -42,6 +42,12 @@ partial class Main
     private TextBox txtClock;
     // timer
     private System.Windows.Forms.Timer timer;
+    // To Do manager
+    private ToDoManager toDoManager;
+    // current To Do
+    private ToDo currentToDo;
+    // filemanager
+    private FileManager fileManager;
 
     private int HEIGHT = 480;
     private int WIDTH = 800;
@@ -65,6 +71,8 @@ partial class Main
     /// </summary>
     private void InitializeComponent()
     {
+        fileManager = new FileManager();
+        toDoManager = new ToDoManager();
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
