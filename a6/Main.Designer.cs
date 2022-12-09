@@ -1,11 +1,14 @@
 ﻿namespace a6;
 
-partial class Form1
+partial class Main
 {
     /// <summary>
     ///  Required designer variable.
     /// </summary>
     private System.ComponentModel.IContainer components = null;
+
+    private int HEIGHT = 450;
+    private int WIDTH = 800;
 
     /// <summary>
     ///  Clean up any resources being used.
@@ -20,8 +23,6 @@ partial class Form1
         base.Dispose(disposing);
     }
 
-    #region Windows Form Designer generated code
-
     /// <summary>
     ///  Required method for Designer support - do not modify
     ///  the contents of this method with the code editor.
@@ -30,9 +31,7 @@ partial class Form1
     {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "Form1";
+        this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
+        this.Text = "Main";
     }
-
-    #endregion
 }
