@@ -1,6 +1,6 @@
 namespace a6;
 
-enum Priority
+public enum Priority
 {
   Very_Important,
   Important,
