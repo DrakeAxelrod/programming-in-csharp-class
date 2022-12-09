@@ -40,4 +40,11 @@ public class ToDoManager {
       }
     }
   }
+
+  /// <summary>
+  /// Count of ToDos.
+  /// </summary>
+  public int Count() {
+    return toDoList.Count;
+  }
 }
