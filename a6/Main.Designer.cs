@@ -467,6 +467,14 @@ partial class Main
             {
                 lbTodo.Items.Add(item.ToString());
             }
+            // clear the date picker
+            dtPicker.Value = DateTime.Now;
+            // clear the description text box
+            txtDescription.Text = "";
+            // clear the priority combo box
+            cmbPriority.SelectedIndex = 0;
+            // focus description text box
+            txtDescription.Focus();
         }
     }
 
