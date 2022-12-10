@@ -16,6 +16,13 @@ public class ToDoManager {
   }
 
   /// <summary>
+  ///  Gets a ToDo from the list.
+  /// </summary>
+  public ToDo Get(int index) {
+    return toDoList[index];
+  }
+
+  /// <summary>
   ///  Removes a ToDo from the list.
   /// </summary>
   public void Remove(ToDo toDo) {
@@ -23,10 +30,19 @@ public class ToDoManager {
   }
 
   /// <summary>
-  ///  Returns a list of ToDos.
+  ///  Removes a ToDo from the list by index.
   /// </summary>
-  public List<ToDo> GetToDos() {
-    return toDoList;
+  public void Remove(int index) {
+    toDoList.RemoveAt(index);
+  }
+
+
+  /// <summary>
+  /// setter / getter for the list.
+  /// </summary>
+  public List<ToDo> List {
+    get { return toDoList; }
+    set { toDoList = value; }
   }
 
   /// <summary>
@@ -46,5 +62,16 @@ public class ToDoManager {
   /// </summary>
   public int Count() {
     return toDoList.Count;
+  }
+
+  /// <summary>
+  ///  toString override.
+  /// </summary>
+  public override string ToString() {
+    string output = "";
+    for (int i = 0; i < toDoList.Count; i++) {
+      output += $"{i + 1}. {toDoList[i].Description} ({toDoList[i].Priority}) {toDoList[i].DueDate} {Environment.NewLine}";
+    }
+    return output;
   }
 }

@@ -106,9 +106,17 @@ partial class Main
         toolbar.Items.Add(helpMenu);
         // create file menu buttons
         ToolStripMenuItem newButton = new ToolStripMenuItem("New");
+        // event handler for new button
+        newButton.Click += new EventHandler(newButton_Click);
         ToolStripMenuItem openButton = new ToolStripMenuItem("Open data file");
+        // event handler for open button
+        openButton.Click += new EventHandler(openButton_Click);
         ToolStripMenuItem saveButton = new ToolStripMenuItem("Save data file");
+        // event handler for save button
+        saveButton.Click += new EventHandler(saveButton_Click);
         ToolStripMenuItem exitButton = new ToolStripMenuItem("Exit");
+        // add exit button event handler
+        exitButton.Click += new EventHandler(exitButton_Click);
         // add the file menu buttons to the file menu
         fileMenu.DropDownItems.Add(newButton);
         fileMenu.DropDownItems.Add(openButton);
@@ -188,8 +196,10 @@ partial class Main
         // center the button
         btnAdd.Location = new Point((WIDTH - 200) / 2, 90);
         btnAdd.Size = new Size(200, 30);
-        // btnAdd.Click += new EventHandler(btnAdd_Click);
+        btnAdd.Click += new EventHandler(btnAdd_Click);
         this.Controls.Add(btnAdd);
+        // focus on the description text box
+        txtDescription.Focus();
     }
 
     /// <summary>
@@ -267,14 +277,14 @@ partial class Main
         btnChange.Text = "Change";
         btnChange.Location = new Point(10, 440);
         btnChange.Size = new Size(200, 30);
-        // btnChange.Click += new EventHandler(btnChange_Click);
+        btnChange.Click += new EventHandler(btnChange_Click);
         this.Controls.Add(btnChange);
         // delete button
         btnDelete = new Button();
         btnDelete.Text = "Delete";
         btnDelete.Location = new Point(280, 440);
         btnDelete.Size = new Size(200, 30);
-        // btnDelete.Click += new EventHandler(btnDelete_Click);
+        btnDelete.Click += new EventHandler(btnDelete_Click);
         this.Controls.Add(btnDelete);
         // clock text box
         txtClock = new TextBox();
@@ -331,5 +341,149 @@ partial class Main
             // close the form
             e.Cancel = false;
         }
+    }
+
+        ///  prompt before closing
+    /// </summary>
+    private void exitButton_Click(object sender, EventArgs e)
+    {
+        this.Close();
+    }
+
+    /// <summary>
+    /// Add button click event
+    /// </summary>
+    private void btnAdd_Click(object sender, EventArgs e)
+    {
+      if (sender == btnAdd) {
+        //get date from date picker
+        DateTime date = dtPicker.Value;
+        //get description from text box
+        string description = txtDescription.Text;
+        //get priority from combo box to enum type
+        string strPriority = cmbPriority.SelectedItem.ToString();
+        Priority priority = (Priority)Enum.Parse(typeof(Priority), strPriority.Replace(" ", "_"));
+        // make a new todo item
+        ToDo item = new ToDo(description, priority, date);
+        // add the item to the list
+        toDoManager.Add(item);
+        lbTodo.Items.Add(item.ToString());
+      }
+    }
+
+    /// <summary>
+    ///  Change button click event
+    /// </summary>
+    private void btnChange_Click(object sender, EventArgs e)
+    {
+        // get the selected item
+        int index = lbTodo.SelectedIndex;
+        // if there is a selected item
+        if (index != -1)
+        {
+            // get the selected item
+            ToDo item = toDoManager.Get(index);
+            // set current todo item
+            currentToDo = item;
+            // set the date picker to the date of the selected item
+            dtPicker.Value = item.DueDate;
+            // set the description text box to the description of the selected item
+            txtDescription.Text = item.Description;
+            // set the priority combo box to the priority of the selected item
+            cmbPriority.SelectedIndex = (int)item.Priority;
+            // remove the selected item from the list
+            toDoManager.Remove(index);
+            lbTodo.Items.RemoveAt(index);
+        }
+        else
+        {
+            MessageBox.Show("Please select an item to change.");
+        }
+    }
+
+    /// <summary>
+    ///  Delete button click event
+    /// </summary>
+    private void btnDelete_Click(object sender, EventArgs e)
+    {
+        // get the selected item
+        int index = lbTodo.SelectedIndex;
+        // if there is a selected item
+        if (index != -1)
+        {
+            // remove the selected item from the list
+            toDoManager.Remove(index);
+            lbTodo.Items.RemoveAt(index);
+        }
+        else
+        {
+            MessageBox.Show("Please select an item to delete.");
+        }
+    }
+
+    /// <summary>
+    /// save the list to a file
+    /// </summary>
+    private void saveButton_Click(object sender, EventArgs e)
+    {
+        // create a file dialog
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        // set the file dialog title
+        saveFileDialog.Title = "Save To Do List";
+        // set the file dialog filter json files
+        saveFileDialog.Filter = "TXT Files (*.txt)|*.txt";
+        // if the user clicked OK
+        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            // get the file name
+            string fileName = saveFileDialog.FileName;
+            // save the list to the file
+            fileManager.SaveToFile(toDoManager.List, fileName);
+        }
+    }
+
+    /// <summary>
+    /// load the list from a file
+    /// </summary>
+    private void openButton_Click(object sender, EventArgs e)
+    {
+        // create a file dialog
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        // set the file dialog title
+        openFileDialog.Title = "Load To Do List";
+        // set the file dialog filter txt files
+        openFileDialog.Filter = "TXT Files (*.txt)|*.txt";
+        // if the user clicked OK
+        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            // get the file name full path
+            string fileName = openFileDialog.FileName;
+            // load the list from the file
+            toDoManager.List = fileManager.LoadFromFile(fileName);
+            // clear the list box
+            lbTodo.Items.Clear();
+            // add the items to the list box
+            foreach (ToDo item in toDoManager.List)
+            {
+                lbTodo.Items.Add(item.ToString());
+            }
+        }
+    }
+
+    /// <summary>
+    ///  new button click event
+    /// </summary>
+    private void newButton_Click(object sender, EventArgs e)
+    {
+        // clear the list box
+        lbTodo.Items.Clear();
+        // clear the list
+        toDoManager.List.Clear();
+        // clear the date picker
+        dtPicker.Value = DateTime.Now;
+        // clear the description text box
+        txtDescription.Text = "";
+        // clear the priority combo box
+        cmbPriority.SelectedIndex = 0;
     }
 }

@@ -40,6 +40,6 @@ public class ToDo
     /// </summary>
     public override string ToString() {
       // with spacing
-      return $"{dueDate.ToShortDateString()} {dueDate.ToShortTimeString()} {priority, -15} {description}";
+      return $"{dueDate.ToShortDateString(), -49} {dueDate.ToShortTimeString(), -26} {priority, -33} {description}";
     }
 }

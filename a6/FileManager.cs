@@ -9,30 +9,17 @@ public class FileManager {
 
   /// <summary>
   ///  Saves the list of ToDos to a file.
-  ///  format: json
-  ///  [
-  ///    {
-  ///      "description": "description",
-  ///      "priority": "priority",
-  ///      "dueDate": "dueDate"
-  ///    },
-  ///  ]
   /// </summary>
   public void SaveToFile(List<ToDo> toDoList, string path) {
-    // append .json if not present
-    if (!path.Contains(".json")) {
-      path += ".json";
-    }
-    using (StreamWriter sw = new StreamWriter(path)) {
-      sw.WriteLine("[");
-      for (int i = 0; i < toDoList.Count(); i++) {
-        sw.WriteLine("  {");
-        sw.WriteLine($"    \"description\": \"{toDoList[i].Description}\",");
-        sw.WriteLine($"    \"priority\": \"{toDoList[i].Priority}\",");
-        sw.WriteLine($"    \"dueDate\": \"{toDoList[i].DueDate}\"");
-        sw.WriteLine("  }" + (i < toDoList.Count - 1 ? "," : ""));
+    // create file
+    using (StreamWriter sw = File.CreateText(path)) {
+      // lines for each ToDo date;priority;description
+      foreach (ToDo toDo in toDoList) {
+        string date = toDo.DueDate.ToString("yyyy-MM-dd_HH-mm-ss");
+        string priority = toDo.Priority.ToString();
+        string description = toDo.Description;
+        sw.WriteLine($"{date};{priority};{description}");
       }
-      sw.WriteLine("]");
     }
   }
 
@@ -42,35 +29,32 @@ public class FileManager {
   public List<ToDo> LoadFromFile(string path) {
     // check if file exists
     if (!File.Exists(path)) {
-      Console.WriteLine("File does not exist.");
-      return new List<ToDo>();
+      throw new FileNotFoundException();
     }
+    // read file
     List<ToDo> toDoList = new List<ToDo>();
-    using (StreamReader sr = new StreamReader(path)) {
-      try {
-        string line;
-        while ((line = sr.ReadLine()) != null) {
-          if (line.Contains("description")) {
-            string description = "";
-            string priority = "";
-            string dueDate = "";
-            description = line.Substring(line.IndexOf(":") + 2, line.Length - line.IndexOf(":") - 3);
-            line = sr.ReadLine();
-            if (line != null) {
-              priority = line.Substring(line.IndexOf(":") + 2, line.Length - line.IndexOf(":") - 3);
-            }
-            line = sr.ReadLine();
-            if (line != null) {
-              dueDate = line.Substring(line.IndexOf(":") + 2, line.Length - line.IndexOf(":") - 3);
-            }
-            toDoList.Add(new ToDo(description, (Priority)Enum.Parse(typeof(Priority), priority), DateTime.Parse(dueDate)));
-          }
-        }
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine(e.Message);
-        return new List<ToDo>();
+    using (StreamReader sr = File.OpenText(path)) {
+      string line;
+      while ((line = sr.ReadLine()) != null) {
+        // split line
+        string[] lineSplit = line.Split(';');
+        // create ToDo
+        // date format: yyyy-MM-dd_HH-mm-ss
+        string[] dateSplit = lineSplit[0].Split('_');
+        string[] dateSplit2 = dateSplit[0].Split('-');
+        string[] timeSplit = dateSplit[1].Split('-');
+        int year = int.Parse(dateSplit2[0]);
+        int month = int.Parse(dateSplit2[1]);
+        int day = int.Parse(dateSplit2[2]);
+        int hour = int.Parse(timeSplit[0]);
+        int minute = int.Parse(timeSplit[1]);
+        int second = int.Parse(timeSplit[2]);
+        DateTime dueDate = new DateTime(year, month, day, hour, minute, second);
+        Priority priority = (Priority)Enum.Parse(typeof(Priority), lineSplit[1]);
+        string description = lineSplit[2];
+        ToDo toDo = new ToDo(description, priority, dueDate);
+        // add to list
+        toDoList.Add(toDo);
       }
     }
     return toDoList;
