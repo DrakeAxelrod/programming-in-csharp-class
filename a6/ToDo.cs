@@ -19,15 +19,23 @@ public class ToDo
         this.priority = priority;
         this.dueDate = dueDate;
     }
-
+    /// <summary>
+    ///  Gets or sets the description.
+    /// </summary>
     public string Description {
         get { return description; }
         set { description = value; }
     }
+    /// <summary>
+    ///  Gets or sets the priority.
+    /// </summary>
     public Priority Priority {
         get { return priority; }
         set { priority = value; }
     }
+    /// <summary>
+    ///  Gets or sets the due date.
+    /// </summary>
     public DateTime DueDate {
         get { return dueDate; }
         set { dueDate = value; }
